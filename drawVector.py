@@ -1,6 +1,7 @@
 import pygame
 import math
 from vector import Vector
+from pygame import Vector2
 
 
 #Colors:
@@ -58,7 +59,22 @@ class Draw_vector():
             pygame.draw.line(self.surface, LINES_COLOR, (0,i),(SCREEN_SIZE,i),REG_LINE_WIDTH)
             pygame.draw.line(self.surface, LINES_COLOR, (i,0),(i,SCREEN_SIZE),REG_LINE_WIDTH)
         pygame.display.update()
-    
+
+    def checkForQuitEvent(self):
+        """
+        checkForQuitEvent:
+            Description:
+                Checks whether the QUIT event has happend
+            Inputs:
+                None
+            Return Value:
+                True if QUIT event occured, False otherwise
+        """
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return True
+        return False
+        
     def mainloop(self):
         """
         mainloop:
@@ -70,9 +86,9 @@ class Draw_vector():
                 None
         """
         while(1):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    exit()
+             if self.checkForQuitEvent():
+                 exit()
+            
 
     def drawVector(self, vector, start, color):
         """
@@ -120,10 +136,15 @@ class Draw_vector():
 if __name__ == "__main__":
     #Minor tests to draw vectors on the screen
     vec = Draw_vector()
+
+    #Testing with own Vector class
     vec.drawVector(Vector(-2,-2),Vector(0,0), RED)
     vec.drawVector(Vector(-2,2),Vector(0,0), RED)
     vec.drawVector(Vector(2,-2),Vector(0,0), RED)
     vec.drawVector(Vector(2,2),Vector(0,0), RED)
+
+    #Testing with pygame.Vector2 class
+    vec.drawVector(Vector2(3,-1), Vector2(-3,-3), GREEN)
 
     vec.drawVector(Vector(2,2),Vector(3,4), BLUE)
     vec.mainloop()
